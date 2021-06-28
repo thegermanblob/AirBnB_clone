@@ -8,12 +8,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         import uuid
         from datetime import datetime
-        if kwargs is None:
-            self.id = str(uuid.uuid4())
-            now = datetime.now()
-            self.created_at = now
-            self.updated_at = now
-        else:
+        if kwargs:
             for key in kwargs:
                 if key == "created_at":
                     datestr = kwargs['created_at']
@@ -25,6 +20,12 @@ class BaseModel:
                     setattr(self, key, date)
                 else:
                     setattr(self, key, kwargs[key])
+        else:
+            self.id = str(uuid.uuid4())
+            print('hi')
+            now = datetime.now()
+            self.created_at = now
+            self.updated_at = now
 
     def save(self):
         """ makes the update_at the current time """
@@ -34,12 +35,18 @@ class BaseModel:
 
     def to_dict(self):
         """ returns dictionary """
+        from datetime import datetime
         todict = self.__dict__
         todict['__class__'] = self.__class__
-        todict['created_at'] = todict['created_at'].isoformat()
-        todict['updated_at'] = todict['updated_at'].isoformat()
+        cdatestr = str(todict['created_at'])
+        udatestr = str(todict['updated_at'])
+        cdate = datetime.strptime(cdatestr, '%Y-%m-%d %H:%M:%S.%f')
+        udate = datetime.strptime(udatestr, '%Y-%m-%d %H:%M:%S.%f')
+        print(type(udate))
+        todict['created_at'] = cdate.isoformat("T")
+        todict['updated_at'] = udate.isoformat("T")
         return todict
 
     def __str__(self):
         """ returns string representation """
-        return "[{}]({d}){}".format(self.__class__, self.id, self.__dict__)
+        return "[{}]({}){}".format(self.__class__, self.id, self.__dict__)
