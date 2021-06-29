@@ -18,11 +18,10 @@ class BaseModel:
                     datestr = kwargs['updated_at']
                     date = datetime.strptime(datestr, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, key, date)
-                else:
+                elif key != "__class__":
                     setattr(self, key, kwargs[key])
         else:
             self.id = str(uuid.uuid4())
-            print('hi')
             now = datetime.now()
             self.created_at = now
             self.updated_at = now
@@ -31,22 +30,17 @@ class BaseModel:
         """ makes the update_at the current time """
         from datetime import datetime
         now = datetime.now()
-        self.updated_at = str(now)
+        self.updated_at = now
 
     def to_dict(self):
         """ returns dictionary """
-        from datetime import datetime
-        todict = self.__dict__
-        todict['__class__'] = self.__class__
-        cdatestr = str(todict['created_at'])
-        udatestr = str(todict['updated_at'])
-        cdate = datetime.strptime(cdatestr, '%Y-%m-%d %H:%M:%S.%f')
-        udate = datetime.strptime(udatestr, '%Y-%m-%d %H:%M:%S.%f')
-        print(type(udate))
-        todict['created_at'] = cdate.isoformat("T")
-        todict['updated_at'] = udate.isoformat("T")
+        todict = self.__dict__.copy()
+        todict["created_at"] = self.created_at.isoformat()
+        todict["updated_at"] = self.updated_at.isoformat()
+        todict["__class__"] = self.__class__.__name__
         return todict
 
     def __str__(self):
         """ returns string representation """
-        return "[{}]({}){}".format(self.__class__, self.id, self.__dict__)
+        name = self.__class__.__name__
+        return "[{}]({}){}".format(name, self.id, self.__dict__)
