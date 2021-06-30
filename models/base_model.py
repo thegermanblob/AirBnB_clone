@@ -8,6 +8,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         import uuid
         from datetime import datetime
+        from models.__init__ import storage
         if kwargs:
             for key in kwargs:
                 if key == "created_at":
@@ -25,12 +26,16 @@ class BaseModel:
             now = datetime.now()
             self.created_at = now
             self.updated_at = now
+            storage.new(self)
 
     def save(self):
         """ makes the update_at the current time """
         from datetime import datetime
+        from models.__init__ import storage
         now = datetime.now()
         self.updated_at = now
+        storage.save()
+
 
     def to_dict(self):
         """ returns dictionary """
