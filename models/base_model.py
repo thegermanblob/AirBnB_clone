@@ -36,7 +36,6 @@ class BaseModel:
         self.updated_at = now
         storage.save()
 
-
     def to_dict(self):
         """ returns dictionary """
         todict = self.__dict__.copy()
