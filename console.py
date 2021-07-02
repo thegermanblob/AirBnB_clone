@@ -3,7 +3,6 @@
 
 import cmd
 from models.base_model import BaseModel
-from models import classes
 from models import storage
 
 
@@ -17,6 +16,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         '''EOF command to exit the program'''
+        print()
         return True
 
     def do_create(self, line):
@@ -25,8 +25,8 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif line in classes:
-            new = classes[line]()
+        elif line in storage.classes:
+            new = storage.classes[line]()
             print(new.id)
             storage.new(new)
             storage.save()
@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif args[0] in classes:
+        elif args[0] in storage.classes:
             if len(args) != 2:
                 print("** instance id missing **")
             elif key not in objs:
@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif args[0] in classes:
+        elif args[0] in storage.classes:
             if len(args) != 2:
                 print("** instance id missing **")
             elif key not in objs:
@@ -83,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
             for key in objs.keys():
                 print(objs[key])
 
-        elif args[0] in classes:
+        elif args[0] in storage.classes:
             for key, value in objs.items():
                 if key[0: key.index('.')] == args[0]:
                     print(value)
@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
 
-        elif args[0] in classes:
+        elif args[0] in storage.classes:
             if len(args) < 2:
                 print("** instance id missing **")
             elif key not in objs:
