@@ -46,6 +46,6 @@ class FileStorage:
                 json_file = json.load(save_file)
             for key in json_file:
                 self.__objects[key] = self.classes[
-                        json_file[key]["__class__"]](**json_file[key])
+                    json_file[key]["__class__"]](**json_file[key])
         except:
             pass
