@@ -57,12 +57,12 @@ class HBNBCommand(cmd.Cmd):
         '''Deletes an instance based on the class name and id'''
         args = line.split()
         objs = storage.all()
-        key = args[0] + "." + args[1]
 
         if len(line) == 0:
             print("** class name missing **")
 
         elif args[0] in storage.classes:
+            key = args[0] + "." + args[1]
             if len(args) != 2:
                 print("** instance id missing **")
             elif key not in objs:
