@@ -3,6 +3,15 @@
 
 class FileStorage:
     """ class that determines the file storage """
+    from models.base_model import BaseModel
+    from models.amenity import Amenity
+    from models.city import City
+    from models.state import State
+    from models.place import Place
+    from models.review import Review
+    from models.user import User
+    classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+               "Place": Place, "Review": Review, "State": State, "User": User}
 
     __file_path = "file.json"
     __objects = dict()
@@ -24,7 +33,7 @@ class FileStorage:
         with open(self.__file_path, 'w') as save_file:
             for key, val in self.__objects.items():
                 cur_dic[key] = val.to_dict()
-            json.dump(self.__objects, save_file)
+            json.dump(cur_dic, save_file)
 
 
     def reload(self):
@@ -34,7 +43,9 @@ class FileStorage:
         try:
             with open(self.__file_path) as save_file:
                 json_file = json.load(save_file)
-                return json_file
+            for key in json_file:
+                self.__objects[key] = self.classes[
+                        json_file[key]["__class__"]](**json_file[key])
         except:
             pass
 

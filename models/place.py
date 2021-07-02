@@ -3,6 +3,8 @@
 
 
 from models.base_model import BaseModel
+
+
 class Place(BaseModel):
     """ class representing places to rent """
     city_id = ""
@@ -16,4 +18,3 @@ class Place(BaseModel):
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
-

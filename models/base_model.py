@@ -9,7 +9,8 @@ class BaseModel:
         import uuid
         from datetime import datetime
         from models.__init__ import storage
-        if kwargs:
+        if len(kwargs) != 0:
+            del kwargs["__class__"]
             for key in kwargs:
                 if key == "created_at":
                     datestr = kwargs['created_at']
@@ -19,7 +20,7 @@ class BaseModel:
                     datestr = kwargs['updated_at']
                     date = datetime.strptime(datestr, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, key, date)
-                elif key != "__class__":
+                else:
                     setattr(self, key, kwargs[key])
         else:
             self.id = str(uuid.uuid4())
@@ -27,6 +28,7 @@ class BaseModel:
             self.created_at = now
             self.updated_at = now
             storage.new(self)
+            storage.save()
 
     def save(self):
         """ makes the update_at the current time """
@@ -35,7 +37,6 @@ class BaseModel:
         now = datetime.now()
         self.updated_at = now
         storage.save()
-
 
     def to_dict(self):
         """ returns dictionary """
@@ -48,4 +49,4 @@ class BaseModel:
     def __str__(self):
         """ returns string representation """
         name = self.__class__.__name__
-        return "[{}]({}){}".format(name, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(name, self.id, self.__dict__)
