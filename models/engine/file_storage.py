@@ -1,6 +1,7 @@
 #!usr/bin/python3
 """ module contains file storage class """
 
+
 class FileStorage:
     """ class that determines the file storage """
     from models.base_model import BaseModel
@@ -15,6 +16,7 @@ class FileStorage:
 
     __file_path = "file.json"
     __objects = dict()
+
     def __init__(self):
         """ Init method for the class """
 
@@ -24,7 +26,7 @@ class FileStorage:
 
     def new(self, obj):
         """ sets obj """
-        self.__objects[obj.__class__.__name__ +"."+ obj.id] = obj
+        self.__objects[obj.__class__.__name__ + "." + obj.id] = obj
 
     def save(self):
         """ saves to json """
@@ -34,7 +36,6 @@ class FileStorage:
             for key, val in self.__objects.items():
                 cur_dic[key] = val.to_dict()
             json.dump(cur_dic, save_file)
-
 
     def reload(self):
         """ deserializes json to __objects """
@@ -48,4 +49,3 @@ class FileStorage:
                         json_file[key]["__class__"]](**json_file[key])
         except:
             pass
-
