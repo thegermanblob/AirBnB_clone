@@ -37,12 +37,12 @@ class HBNBCommand(cmd.Cmd):
         '''Print string representation of instance'''
         args = line.split()
         objs = storage.all()
-        key = args[0] + "." + args[1]
 
         if len(line) == 0:
             print("** class name missing **")
 
         elif args[0] in storage.classes:
+            key = args[0] + "." + args[1]
             if len(args) != 2:
                 print("** instance id missing **")
             elif key not in objs:
@@ -93,14 +93,11 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         objs = storage.all()
 
-        try:
-            key = args[0] + "." + args[1]
-        except:
-            pass
         if len(line) == 0:
             print("** class name missing **")
 
         elif args[0] in storage.classes:
+            key = args[0] + "." + args[1]
             if len(args) < 2:
                 print("** instance id missing **")
             elif key not in objs:
