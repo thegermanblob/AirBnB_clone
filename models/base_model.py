@@ -41,8 +41,10 @@ class BaseModel:
     def to_dict(self):
         """ returns dictionary """
         todict = self.__dict__.copy()
-        todict["created_at"] = self.created_at.isoformat("%Y-%m-%dT%H:%M:%S.%f")
-        todict["updated_at"] = self.updated_at.isoformat("%Y-%m-%dT%H:%M:%S.%f")
+        todict["created_at"] = self.created_at.isoformat(
+            "%Y-%m-%dT%H:%M:%S.%f")
+        todict["updated_at"] = self.updated_at.isoformat(
+            "%Y-%m-%dT%H:%M:%S.%f")
         todict["__class__"] = self.__class__.__name__
         return todict
 
